@@ -1,453 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shakespearean Tragedy Dialogues</title>
-    <style>
-        :root {
-            --bg-color: #0a0a0a;
-            --text-color: #e0e0e0;
-            --accent-color: #8b0000;
-            --secondary-bg: #141414;
-            --border-color: #2a2a2a;
-            --user-msg: #242424;
-            --char-msg: #1a0f0f;
-            --font-main: 'Georgia', serif;
-        }
-
-        body {
-            font-family: var(--font-main);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
-        }
-
-        .container {
-            width: 95%;
-            max-width: 900px;
-            height: 90vh;
-            background-color: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 15px rgba(139, 0, 0, 0.2);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .header {
-            padding: 25px;
-            background-color: #000;
-            border-bottom: 2px solid var(--accent-color);
-            text-align: center;
-            position: relative;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-            color: #fff;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
-        }
-
-        .header p {
-            margin: 8px 0 0 0;
-            font-size: 0.95em;
-            color: #888;
-            font-style: italic;
-        }
-
-        .settings {
-            padding: 15px 25px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            background-color: #111;
-            border-bottom: 1px solid var(--border-color);
-            align-items: center;
-        }
-
-        .settings input[type="password"], .settings select {
-            padding: 12px 15px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-family: var(--font-main);
-            font-size: 14px;
-            flex: 1;
-            min-width: 200px;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .settings input[type="password"]:focus, .settings select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 8px rgba(139, 0, 0, 0.4);
-        }
-
-        .chat-area {
-            flex: 1;
-            padding: 25px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            scroll-behavior: smooth;
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 18px 22px;
-            border-radius: 8px;
-            line-height: 1.6;
-            animation: fadeIn 0.4s ease-out forwards;
-            position: relative;
-            font-size: 1.05em;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background-color: var(--user-msg);
-            border-bottom-right-radius: 0;
-            box-shadow: -2px 2px 10px rgba(0,0,0,0.3);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 0.95em;
-        }
-
-        .message.character {
-            align-self: flex-start;
-            background-color: var(--char-msg);
-            border: 1px solid rgba(139, 0, 0, 0.3);
-            border-left: 4px solid var(--accent-color);
-            border-bottom-left-radius: 0;
-            box-shadow: 2px 2px 15px rgba(0,0,0,0.5);
-            font-style: italic;
-        }
-
-        .character-name {
-            font-size: 0.75em;
-            color: var(--accent-color);
-            margin-bottom: 8px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        .input-area {
-            padding: 25px;
-            background-color: #0a0a0a;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            gap: 15px;
-            align-items: flex-end;
-        }
-
-        .input-area textarea {
-            flex: 1;
-            padding: 15px;
-            background-color: #1a1a1a;
-            color: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            resize: none;
-            height: 24px;
-            min-height: 24px;
-            max-height: 120px;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            transition: border-color 0.3s;
-        }
-
-        .input-area textarea:focus {
-            outline: none;
-            border-color: #555;
-            background-color: #222;
-        }
-
-        .input-area button {
-            padding: 0 30px;
-            height: 56px;
-            background-color: var(--accent-color);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-
-        .input-area button:hover:not(:disabled) {
-            background-color: #a00000;
-        }
-
-        .input-area button:active:not(:disabled) {
-            transform: scale(0.98);
-        }
-
-        .input-area button:disabled {
-            background-color: #333;
-            color: #666;
-            cursor: not-allowed;
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.2);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-        
-        .loading {
-            align-self: flex-start;
-            margin-left: 10px;
-            color: #666;
-            font-style: italic;
-            font-size: 0.9em;
-            display: none;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-
-        .loading.active {
-            display: block;
-        }
-
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
 
-<div class="container">
-    <div class="header">
-        <h1>Echoes of Fate</h1>
-        <p>Converse with the doomed souls of Shakespeare's great tragedies.</p>
-    </div>
-
-    <div class="settings">
-        <input type="password" id="apiKey" placeholder="Enter Gemini API Key (Required)">
-        <select id="characterSelect">
-            <option value="Hamlet">Hamlet (Prince of Denmark)</option>
-            <option value="Macbeth">Macbeth (King of Scotland)</option>
-            <option value="Romeo">Romeo (Romeo and Juliet)</option>
-            <option value="Juliet">Juliet (Romeo and Juliet)</option>
-            <option value="King Lear">King Lear (King of Britain)</option>
-            <option value="Othello">Othello (The Moor of Venice)</option>
-            <option value="Ophelia">Ophelia (Hamlet)</option>
-            <option value="Lady Macbeth">Lady Macbeth (Macbeth)</option>
-        </select>
-    </div>
-
-    <div class="chat-area" id="chatArea">
-        <div class="message character">
-            <div class="character-name" id="introName">Hamlet</div>
-            <div id="introText">To be, or not to be: that is the question... What brings thee to my melancholy presence?</div>
+    <div class="container">
+        <div class="header">
+            <h1>Echoes of Fate</h1>
+            <p>Converse with the doomed souls of Shakespeare's great tragedies.</p>
         </div>
-        <div class="loading" id="loadingIndicator">The spirit is contemplating...</div>
+
+        <div class="settings">
+            <input type="password" id="apiKey" placeholder="Enter Gemini API Key (Required)">
+            <select id="characterSelect">
+                <option value="Hamlet">Hamlet (Prince of Denmark)</option>
+                <option value="Macbeth">Macbeth (King of Scotland)</option>
+                <option value="Romeo">Romeo (Romeo and Juliet)</option>
+                <option value="Juliet">Juliet (Romeo and Juliet)</option>
+                <option value="King Lear">King Lear (King of Britain)</option>
+                <option value="Othello">Othello (The Moor of Venice)</option>
+                <option value="Ophelia">Ophelia (Hamlet)</option>
+                <option value="Lady Macbeth">Lady Macbeth (Macbeth)</option>
+            </select>
+        </div>
+
+        <div class="chat-area" id="chatArea">
+            <div class="message character">
+                <div class="character-name" id="introName">Hamlet</div>
+                <div id="introText">To be, or not to be: that is the question... What brings thee to my melancholy
+                    presence?</div>
+            </div>
+            <div class="loading" id="loadingIndicator">The spirit is contemplating...</div>
+        </div>
+
+        <div class="input-area">
+            <textarea id="userInput" placeholder="Speak thy mind unto the spirit... (Press Enter to send)"
+                rows="1"></textarea>
+            <button id="sendBtn">Send</button>
+        </div>
     </div>
 
-    <div class="input-area">
-        <textarea id="userInput" placeholder="Speak thy mind unto the spirit... (Press Enter to send)" rows="1"></textarea>
-        <button id="sendBtn">Send</button>
-    </div>
-</div>
-
-<script>
-    const chatArea = document.getElementById('chatArea');
-    const userInput = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const apiKeyInput = document.getElementById('apiKey');
-    const characterSelect = document.getElementById('characterSelect');
-    const introName = document.getElementById('introName');
-    const introText = document.getElementById('introText');
-    const loadingIndicator = document.getElementById('loadingIndicator');
-
-    let chatHistory = [];
-
-    const characterIntros = {
-        "Hamlet": "To be, or not to be: that is the question... What brings thee to my melancholy presence? The heavy burden of revenge weights upon my soul.",
-        "Macbeth": "So foul and fair a day I have not seen. Who goes there? The blood upon my hands will ne'er wash clean...",
-        "Romeo": "O, speak again, bright angel! For thou art as glorious to this night... though the stars themselves defy our love.",
-        "Juliet": "O Romeo, Romeo! wherefore art thou Romeo? Speak to my heavy heart. The vault of death is now my bridal bed.",
-        "King Lear": "Blow, winds, and crack your cheeks! rage! blow! I am a man more sinn'd against than sinning. Approach, if thou darest.",
-        "Othello": "It is the cause, it is the cause, my soul. Speak, what wouldst thou with me? The green-eyed monster hath consumed my reason.",
-        "Ophelia": "There's rosemary, that's for remembrance... pray, love, remember. The water is cold, and my heart is broken. Art thou a friend?",
-        "Lady Macbeth": "Out, damned spot! out, I say!... What is done cannot be undone. Speak your purpose before the shadows consume me."
-    };
-
-    // Auto-resize textarea
-    userInput.addEventListener('input', function() {
-        this.style.height = '24px';
-        this.style.height = (this.scrollHeight) + 'px';
-    });
-
-    characterSelect.addEventListener('change', (e) => {
-        const char = e.target.value;
-        introName.textContent = char;
-        introText.textContent = characterIntros[char];
-        
-        // Clear chat history visually
-        const messages = chatArea.querySelectorAll('.message:not(:first-child)');
-        messages.forEach(msg => msg.remove());
-        chatHistory = [];
-        chatArea.appendChild(loadingIndicator); // move loading to bottom
-    });
-
-    function addMessage(text, isUser = false, charName = "") {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `message ${isUser ? 'user' : 'character'}`;
-        
-        if (!isUser && charName) {
-            const nameDiv = document.createElement('div');
-            nameDiv.className = 'character-name';
-            nameDiv.textContent = charName;
-            msgDiv.appendChild(nameDiv);
-        }
-
-        const textDiv = document.createElement('div');
-        textDiv.innerHTML = text.replace(/\n/g, '<br>');
-        msgDiv.appendChild(textDiv);
-
-        chatArea.insertBefore(msgDiv, loadingIndicator);
-        chatArea.scrollTop = chatArea.scrollHeight;
-    }
-
-    async function generateResponse(userText) {
-        const apiKey = apiKeyInput.value.trim();
-        if (!apiKey) {
-            alert("Please enter a valid Gemini API Key in the settings bar above.");
-            return;
-        }
-
-        const character = characterSelect.value;
-        sendBtn.disabled = true;
-        userInput.disabled = true;
-        loadingIndicator.classList.add('active');
-
-        // Strong prompt enforcing persona and tragic theme
-        const systemPrompt = `You are ${character} from William Shakespeare's plays. The user is a mortal interacting with your tragic soul. 
-        You MUST reply strictly in the persona, tone, vocabulary, and worldview of ${character}. 
-        Reflect heavily on your tragic fate, your deepest regrets, inner conflicts, and sorrow. Do not break character under any circumstance. 
-        Speak in Early Modern English (Shakespearean style), using words like "thou", "thee", "hath", "doth", etc., but keep it comprehensible to a modern reader. 
-        Keep your response dramatic, poetic, and concise (2 to 4 sentences max).`;
-
-        const contents = [
-            {
-                role: "user",
-                parts: [{ text: systemPrompt }]
-            },
-            {
-                role: "model",
-                parts: [{ text: `I understand my fate. I shall speak as ${character}, bearing the heavy burden of my tragedy.` }]
-            }
-        ];
-
-        // Append historical messages for context window
-        for (let msg of chatHistory) {
-            contents.push(msg);
-        }
-
-        // Add the new user prompt
-        contents.push({
-            role: "user",
-            parts: [{ text: userText }]
-        });
-
-        try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    contents: contents,
-                    generationConfig: {
-                        temperature: 0.85,
-                        maxOutputTokens: 300,
-                    }
-                })
-            });
-
-            if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error?.message || `API Error HTTP ${response.status}`);
-            }
-
-            const data = await response.json();
-            
-            if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
-                const replyText = data.candidates[0].content.parts[0].text;
-
-                // Add to internal history
-                chatHistory.push({ role: "user", parts: [{ text: userText }] });
-                chatHistory.push({ role: "model", parts: [{ text: replyText }] });
-
-                addMessage(replyText, false, character);
-            } else {
-                throw new Error("Invalid response format from Gemini API");
-            }
-
-        } catch (error) {
-            console.error(error);
-            addMessage(`[Alas, a mystical interference hath occurred: ${error.message}]`, false, "System");
-        } finally {
-            sendBtn.disabled = false;
-            userInput.disabled = false;
-            loadingIndicator.classList.remove('active');
-            userInput.focus();
-        }
-    }
-
-    sendBtn.addEventListener('click', () => {
-        const text = userInput.value.trim();
-        if (text) {
-            addMessage(text, true);
-            userInput.value = '';
-            userInput.style.height = '24px';
-            generateResponse(text);
-        }
-    });
-
-    userInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendBtn.click();
-        }
-    });
-
-</script>
+    <script src="app.js"></script>
 
 </body>
+
 </html>
